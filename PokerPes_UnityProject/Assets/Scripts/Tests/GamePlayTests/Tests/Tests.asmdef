@@ -1,0 +1,14 @@
+{
+    "name": "GamePlay_Tests",
+    "references": [
+        "ScriptsAssembies"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
