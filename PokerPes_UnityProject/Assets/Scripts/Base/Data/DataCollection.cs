@@ -10,7 +10,7 @@ public class DataCollection : IDataCollection
     public DataCollection()
     {
         prefabModels = Resources.LoadAll<GameObject>(Path);
-        Debug.Log("ALL SPRITES = " + prefabModels.Length);
+        //Debug.Log("ALL SPRITES = " + prefabModels.Length);
     }
 
     public List<Card> Data()

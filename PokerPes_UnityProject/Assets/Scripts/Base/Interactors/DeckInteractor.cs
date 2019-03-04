@@ -20,10 +20,26 @@ public class DeckInteractor : IInteractor
 
     public List<Card> RandomizeData()
     {
-        var randomNumber = new System.Random(Constants.SharedInstance.TotalNumberOfCardsInDeck);
-        var randomizedCards = cards.OrderBy(r => randomNumber.Next());
+        return Fisher_Yates_CardDeck_Shuffle();
+    }
 
-        return randomizedCards.ToList();
+    private List<Card> Fisher_Yates_CardDeck_Shuffle()
+    {
+
+        System.Random _random = new System.Random();
+
+        Card myCard;
+
+        int n = cards.Count;
+        for (int i = 0; i < n; i++)
+        {
+            int r = i + (int)(_random.NextDouble() * (n - i));
+            myCard = cards[r];
+            cards[r] = cards[i];
+            cards[i] = myCard;
+        }
+
+        return cards;
     }
 
     public Card popCard()
