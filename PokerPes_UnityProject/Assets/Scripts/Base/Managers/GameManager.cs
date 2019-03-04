@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.Linq;
-using Realtime.Messaging.Internal;
-using System.Text;
 
 public class GameManager : MonoBehaviour, IGameManager 
 {
-
     Hand hand = new Hand();
+    public TextMesh textMesh;
 
     public List<SpriteRenderer> slots;
 
@@ -48,8 +44,10 @@ public class GameManager : MonoBehaviour, IGameManager
     {
         for (int i = 0; i < 5; i++)
         {
-            slots[i].gameObject.transform.localPosition = new Vector3(slots[i].transform.localPosition.x, 1.6f, slots[i].transform.position.z);
+            slots[i].GetComponent<SlotHandler>().SetSlotState(SlotState.FaceUp);
+            slots[i].GetComponent<SlotHandler>().ResetSlot();
             slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
+            textMesh.text = "KOK!";
         }
     }
 }
