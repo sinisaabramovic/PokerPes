@@ -536,7 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be401236bf28b4d2783cbdc5a0d24f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMesh: {fileID: 0}
   slots:
   - {fileID: 1995441347}
   - {fileID: 81384636}

@@ -4,8 +4,8 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour, IGameManager 
 {
+    
     Hand hand = new Hand();
-    public TextMesh textMesh;
 
     public List<SpriteRenderer> slots;
 
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour, IGameManager
             slots[i].GetComponent<SlotHandler>().SetSlotState(SlotState.FaceUp);
             slots[i].GetComponent<SlotHandler>().ResetSlot();
             slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
-            textMesh.text = "KOK!";
         }
     }
 }
