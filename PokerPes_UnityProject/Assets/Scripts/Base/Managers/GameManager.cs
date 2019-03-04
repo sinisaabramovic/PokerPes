@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour, IGameManager
     {
         for (int i = 0; i < 5; i++)
         {
+            slots[i].gameObject.transform.localPosition = new Vector3(slots[i].transform.localPosition.x, 1.6f, slots[i].transform.position.z);
             slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
         }
     }
