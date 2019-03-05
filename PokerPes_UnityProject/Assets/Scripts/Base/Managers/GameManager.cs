@@ -22,6 +22,13 @@ public class GameManager : MonoBehaviour, IGameManager
         //InitializeCards();
     }
 
+    public void ResetStates()
+    {
+        InitializeCards();
+        DisplayCards();
+        scoreText.text = "DRAW";
+    }
+
     private void Awake()
     {
         InitializeCards();
@@ -85,7 +92,7 @@ public class GameManager : MonoBehaviour, IGameManager
         {
             slots[i].GetComponent<SlotHandler>().SetSlotState(SlotFaceState.FaceUp);
             slots[i].GetComponent<SlotHandler>().ResetSlot();
-            slots[i].GetComponent<SlotHandler>().SetSlotPickState(SlotPickState.PickedForThrow);
+            //slots[i].GetComponent<SlotHandler>().SetSlotPickState(SlotPickState.PickedForThrow);
             slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
         }
         Debug.Log(hand.ToString());

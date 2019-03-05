@@ -28,7 +28,14 @@ public class SlotHandler : MonoBehaviour
     {
         if(slotState == SlotFaceState.FaceUp)
         {
-            UpCard();
+            //UpCard();
+            if (slotPickState == SlotPickState.PickedForThrow)
+            {
+                UpCard();
+                return;
+            }
+
+            ResetSlot();
         }
 
     }
@@ -42,7 +49,7 @@ public class SlotHandler : MonoBehaviour
     public void ResetSlot()
     {
         transform.localPosition = new Vector3(transform.localPosition.x, 1.6f, transform.localPosition.z);
-        //SetSlotPickState(SlotPickState.PickedForThrow);
+        SetSlotPickState(SlotPickState.PickedForThrow);
     }
 
     public SlotFaceState GetSlotState()
