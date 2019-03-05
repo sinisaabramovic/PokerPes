@@ -27,6 +27,12 @@ public class HandInteractor : IInteractor
         cards.Add(card);
     }
 
+    public void pushCard(Card card, int atIndex)
+    {
+        //cards.Insert(atIndex, card);
+        cards[atIndex] = card;
+    }
+
     public List<Card> RandomizeData()
     {
         throw new NotImplementedException();
@@ -40,5 +46,10 @@ public class HandInteractor : IInteractor
     public void removeCard(Card card)
     {
         cards.Remove(card);
+    }
+
+    public void removeCard(int index)
+    {
+        cards.RemoveAt(index);
     }
 }
