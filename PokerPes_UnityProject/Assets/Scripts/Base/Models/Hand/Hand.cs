@@ -53,6 +53,12 @@ public class Hand : IHand
         handInteractor.pushCard(card);
     }
 
+    public void SwapCardAtIndex(Card card, int atIndex)
+    {
+        //Debug.Log("REPLACE AT INDEX " + atIndex);
+        handInteractor.pushCard(card, atIndex);
+    }
+
     // higher order function 
     public void ClaimForCards(Action<int>claim, int numberOfCards = 1)
     {
@@ -66,6 +72,12 @@ public class Hand : IHand
         //cards.Remove(card);
         if (handInteractor.Cards.Count() <= 0) return;
         handInteractor.removeCard(card);
+    }
+
+    public void RemoveCardFromHand(int index)
+    {
+        if (handInteractor.Cards.Count() <= 0) return;
+        handInteractor.removeCard(index);
     }
 
     public void RemoveAllCardsFromHand()
