@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour, IGameManager
         textMesh.text = "DRAW";
     }
 
-    private void Awake()
+    private void Start()
     {
         InitializeCards();
     }

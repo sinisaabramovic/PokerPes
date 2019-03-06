@@ -15,13 +15,13 @@ public class SlotHandlerPresenter : ISlotHandler
     public Vector3 ResetSlot()
     {
         _slotPickState = SlotPickState.PickedForThrow;
-        return new Vector3(_transform.localPosition.x, 1.6f, _transform.localPosition.z);
+        return new Vector3(_transform.localPosition.x, -0.78f, _transform.localPosition.z);
     }
 
     public Vector3 UpCard()
     {
         _slotPickState = SlotPickState.PickedForStay;
-        return new Vector3(_transform.localPosition.x, 2.0f, _transform.localPosition.z);
+        return new Vector3(_transform.localPosition.x, -0.2f, _transform.localPosition.z);
     }
 
 
