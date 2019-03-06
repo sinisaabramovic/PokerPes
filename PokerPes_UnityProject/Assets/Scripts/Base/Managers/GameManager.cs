@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour, IGameManager
 
     public Text scoreText;
 
-    public List<SpriteRenderer> slots;
+    public List<SlotHandlerView> slots;
     private bool firstRun = true;
     
     public void DrawCards()
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour, IGameManager
             int cardIndex = 0;
             foreach(int i in indexHandler)
             {
-                //Debug.Log("CALL FOR : " + i);
                 hand.SwapCardAtIndex(cards[cardIndex], i);
                 cardIndex++;
             }
@@ -78,8 +77,8 @@ public class GameManager : MonoBehaviour, IGameManager
 
         for (int i = 0; i < 5; i++)
         {
-
-            if (slots[i].GetComponent<SlotHandler>().GetSlotPickState() == SlotPickState.PickedForThrow)
+            Debug.Log(slots[i].GetSlotPickState().ToString());
+            if (slots[i].GetSlotPickState() == SlotPickState.PickedForThrow)
             {
                 indexHandler.Add(i);
             }
@@ -90,11 +89,10 @@ public class GameManager : MonoBehaviour, IGameManager
     {
         for (int i = 0; i < 5; i++)
         {
-            slots[i].GetComponent<SlotHandler>().SetSlotState(SlotFaceState.FaceUp);
-            slots[i].GetComponent<SlotHandler>().ResetSlot();
-            //slots[i].GetComponent<SlotHandler>().SetSlotPickState(SlotPickState.PickedForThrow);
-            slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
+            slots[i].SetSlotState(SlotFaceState.FaceUp);
+            slots[i].ResetSlot();
+            slots[i].GetComponent<SpriteRenderer>().sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
         }
-        Debug.Log(hand.ToString());
+        //Debug.Log(hand.ToString());
     }
 }
