@@ -6,27 +6,29 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour, IGameManager 
 {
     List<int> indexHandler = new List<int>();
-    Dictionary<int, Card> slotIndexHandler = new Dictionary<int, Card>();
     Hand hand = new Hand();
 
-    public Text scoreText;
+    //public Text scoreText;
+    public TextMesh textMesh;
 
     public List<SlotHandlerView> slots;
     private bool firstRun = true;
     
     public void DrawCards()
     {
+        Debug.Log("CALLED!");
         InitializeCards();
         DisplayCards();
-        scoreText.text = hand.GetHandRank().ToString();
-        //InitializeCards();
+        //scoreText.text = hand.GetHandRank().ToString();
+        textMesh.text = hand.GetHandRank().ToString();
     }
 
     public void ResetStates()
     {
         InitializeCards();
         DisplayCards();
-        scoreText.text = "DRAW";
+        //scoreText.text = "DRAW";
+        textMesh.text = "DRAW";
     }
 
     private void Awake()
@@ -38,14 +40,13 @@ public class GameManager : MonoBehaviour, IGameManager
     {
         Deck deck = new Deck();
 
-        //hand.RemoveAllCardsFromHand();
         RemoveCardsFromHand();
+
         deck.Interactor.RandomizeData();
 
         hand.ClaimForCards((count) =>
         {
             List<Card> cards = new List<Card>();
-            Debug.Log("CARDS TO REPLEACE = " + count);
             cards = deck.ThrowCards(count);
 
             if (firstRun)
@@ -64,9 +65,7 @@ public class GameManager : MonoBehaviour, IGameManager
                 hand.SwapCardAtIndex(cards[cardIndex], i);
                 cardIndex++;
             }
-
-            Debug.Log(hand.ToString());
-
+            
         }, indexHandler.Count());
     }
 
@@ -77,7 +76,6 @@ public class GameManager : MonoBehaviour, IGameManager
 
         for (int i = 0; i < 5; i++)
         {
-            Debug.Log(slots[i].GetSlotPickState().ToString());
             if (slots[i].GetSlotPickState() == SlotPickState.PickedForThrow)
             {
                 indexHandler.Add(i);
@@ -93,6 +91,5 @@ public class GameManager : MonoBehaviour, IGameManager
             slots[i].ResetSlot();
             slots[i].GetComponent<SpriteRenderer>().sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
         }
-        //Debug.Log(hand.ToString());
     }
 }
