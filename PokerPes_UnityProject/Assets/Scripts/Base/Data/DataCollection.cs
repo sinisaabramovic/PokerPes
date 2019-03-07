@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DataCollection : IDataCollection
 {
-    private const string Path = "Cards";
+    private const string Path = "CardsNew";
     private GameObject[] prefabModels;
 
     public DataCollection()

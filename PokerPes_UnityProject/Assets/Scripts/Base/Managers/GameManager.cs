@@ -1,76 +1,116 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
+public enum ManagerState
+{
+    CanDraw = 0,
+    CantDraw = 1,
+}
+
 public class GameManager : MonoBehaviour, IGameManager 
 {
-    List<int> indexHandler = new List<int>();
-    Dictionary<int, Card> slotIndexHandler = new Dictionary<int, Card>();
-    Hand hand = new Hand();
 
-    public Text scoreText;
+    public ManagerState managerState = ManagerState.CantDraw;
+    public TextMesh textMesh;
+    public float timeWaitToDraw = 1.0f;
+    public List<SlotHandlerView> slots;
 
-    public List<SpriteRenderer> slots;
+    private List<int> indexHandler = new List<int>();
+    private Hand hand = new Hand();
     private bool firstRun = true;
+
+    private int callCounter = 0;
     
     public void DrawCards()
     {
         InitializeCards();
-        DisplayCards();
-        scoreText.text = hand.GetHandRank().ToString();
-        //InitializeCards();
+        DisplayCardsForPlay();
+
+        StartCoroutine(CallForDrawWithDelay());
+      
+    }
+
+    private IEnumerator CallForDrawWithDelay()
+    {
+        textMesh.text = hand.GetHandRank().ToString();
+        managerState = ManagerState.CantDraw;
+
+        yield return new WaitForSeconds(2.0f);
+
+        callCounter++;
+
+        if (callCounter >= 2)
+        {
+            StartCoroutine(CallDrawCards());
+        }
     }
 
     public void ResetStates()
     {
         InitializeCards();
-        DisplayCards();
-        scoreText.text = "DRAW";
+        DisplayCardsForPlay();
+        callCounter++;
+        managerState = ManagerState.CanDraw;
+        textMesh.text = "DRAW";
     }
 
-    private void Awake()
+    private void Start()
     {
         InitializeCards();
+        StartCoroutine(CallDrawCards());
+    }
+
+    IEnumerator CallDrawCards()
+    {
+        textMesh.text = "DEALING!";
+        DisplayCardsBeforePlay();
+
+        yield return new WaitForSeconds(timeWaitToDraw);
+
+        callCounter = 0;
+        ResetStates();
     }
 
     private void InitializeCards()
     {
         Deck deck = new Deck();
 
-        //hand.RemoveAllCardsFromHand();
         RemoveCardsFromHand();
+
         deck.Interactor.RandomizeData();
 
         hand.ClaimForCards((count) =>
         {
-            List<Card> cards = new List<Card>();
-            Debug.Log("CARDS TO REPLEACE = " + count);
-            cards = deck.ThrowCards(count);
-
-            if (firstRun)
-            {
-                foreach (Card card in cards)
-                {
-                    hand.Draw(card);
-                }
-                firstRun = false;
-                return;
-            }
-
-            int cardIndex = 0;
-            foreach(int i in indexHandler)
-            {
-                //Debug.Log("CALL FOR : " + i);
-                hand.SwapCardAtIndex(cards[cardIndex], i);
-                cardIndex++;
-            }
-
-            Debug.Log(hand.ToString());
+            CollectCardsToHand(count, deck);
 
         }, indexHandler.Count());
     }
 
+    private void CollectCardsToHand(int count, Deck deck)
+    {
+        List<Card> cards = new List<Card>();
+        cards = deck.ThrowCards(count);
+
+        if (firstRun)
+        {
+            foreach (Card card in cards)
+            {
+                hand.Draw(card);
+            }
+            firstRun = false;
+            return;
+        }
+
+        int cardIndex = 0;
+        foreach (int i in indexHandler)
+        {
+            hand.SwapCardAtIndex(cards[cardIndex], i);
+            cardIndex++;
+        }
+    }
 
     private void RemoveCardsFromHand()
     {
@@ -78,23 +118,30 @@ public class GameManager : MonoBehaviour, IGameManager
 
         for (int i = 0; i < 5; i++)
         {
-
-            if (slots[i].GetComponent<SlotHandler>().GetSlotPickState() == SlotPickState.PickedForThrow)
+            if (slots[i].GetSlotPickState() == SlotPickState.PickedForThrow)
             {
                 indexHandler.Add(i);
             }
         }
     }
 
-    private void DisplayCards()
+    private void DisplayCardsForPlay()
     {
         for (int i = 0; i < 5; i++)
         {
-            slots[i].GetComponent<SlotHandler>().SetSlotState(SlotFaceState.FaceUp);
-            slots[i].GetComponent<SlotHandler>().ResetSlot();
-            //slots[i].GetComponent<SlotHandler>().SetSlotPickState(SlotPickState.PickedForThrow);
-            slots[i].sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
+            slots[i].SetSlotState(SlotFaceState.FaceUp);
+            slots[i].ResetSlot();
+            slots[i].GetComponent<SpriteRenderer>().sprite = hand.HandInteractor.Cards.ToList()[i].GetSprite();
         }
-        Debug.Log(hand.ToString());
+    }
+
+    private void DisplayCardsBeforePlay()
+    {
+    
+        for (int i = 0; i < 5; i++)
+        {
+            slots[i].SetSlotState(SlotFaceState.FaceDown);
+            slots[i].GetComponent<SpriteRenderer>().sprite = slots[i].defaultBackSprite;
+        }             
     }
 }

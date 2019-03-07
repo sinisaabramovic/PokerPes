@@ -8,6 +8,7 @@ using System.Text;
 
 public interface IGameManager  
 {
+    void DrawCards();
+    void ResetStates();
 
-	
 }
