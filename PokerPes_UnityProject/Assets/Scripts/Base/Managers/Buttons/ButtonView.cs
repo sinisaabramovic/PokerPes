@@ -20,7 +20,10 @@ public class ButtonView : MonoBehaviour
         Debug.Log("Pressed1");
 
         ButtonPresenter.Pressed(() => {
-            ButtonPresenter.GameManager.DrawCards();
+            if(ButtonPresenter.GameManager.managerState == ManagerState.CanDraw)
+            {
+                ButtonPresenter.GameManager.DrawCards();
+            }
         });
     }
 }

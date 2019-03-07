@@ -316,6 +316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 0
+  gameManager: {fileID: 735654396}
+  defaultBackSprite: {fileID: 21300000, guid: 313510b8eeff84c1da70b242f5d9c30c, type: 3}
 --- !u!61 &249418107
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -358,6 +360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 1
+  gameManager: {fileID: 735654396}
+  defaultBackSprite: {fileID: 21300000, guid: 313510b8eeff84c1da70b242f5d9c30c, type: 3}
 --- !u!61 &302717277
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -475,6 +479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 3
+  gameManager: {fileID: 735654396}
+  defaultBackSprite: {fileID: 21300000, guid: 313510b8eeff84c1da70b242f5d9c30c, type: 3}
 --- !u!61 &385218286
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -617,7 +623,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be401236bf28b4d2783cbdc5a0d24f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  managerState: 1
   textMesh: {fileID: 1884245706}
+  timeWaitToDraw: 1
   slots:
   - {fileID: 249418105}
   - {fileID: 302717275}
@@ -641,6 +649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 2
+  gameManager: {fileID: 735654396}
+  defaultBackSprite: {fileID: 21300000, guid: 313510b8eeff84c1da70b242f5d9c30c, type: 3}
 --- !u!61 &930907200
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -811,6 +821,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 4
+  gameManager: {fileID: 735654396}
+  defaultBackSprite: {fileID: 21300000, guid: 313510b8eeff84c1da70b242f5d9c30c, type: 3}
 --- !u!61 &1409882214
 BoxCollider2D:
   m_ObjectHideFlags: 0

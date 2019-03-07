@@ -9,6 +9,8 @@ public class SlotHandlerView : MonoBehaviour
     // Use this for initialization
     public int slotId;
     private SlotHandlerPresenter slotHandlerPresenter;
+    public GameManager gameManager;
+    public Sprite defaultBackSprite;
 
     private void Awake()
     {
@@ -18,7 +20,7 @@ public class SlotHandlerView : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(slotHandlerPresenter.slotState == SlotFaceState.FaceUp)
+        if(slotHandlerPresenter.slotState == SlotFaceState.FaceUp && gameManager.managerState == ManagerState.CanDraw)
         {
             //UpCard();
             if (slotHandlerPresenter.slotPickState == SlotPickState.PickedForThrow)
