@@ -15,63 +15,72 @@ public class GameManager : MonoBehaviour, IGameManager
 
     public ManagerState managerState = ManagerState.CantDraw;
     public TextMesh textMesh;
-    public float timeWaitToDraw = 1.0f;
     public List<SlotHandlerView> slots;
 
+    private float timeWaitToDraw = 1.5f;
     private List<int> indexHandler = new List<int>();
     private Hand hand = new Hand();
     private bool firstRun = true;
 
     private int callCounter = 0;
-    
+
+    #region MonoBehave methods
+
+    private void Start()
+    {
+        InitializeCards();
+        StartCoroutine(CallDrawCardsWithDelay(timeWaitToDraw));
+    }
+    #endregion
+
+    #region Public Methods
+
     public void DrawCards()
     {
         InitializeCards();
         DisplayCardsForPlay();
 
-        StartCoroutine(CallForDrawWithDelay());
-      
+        StartCoroutine(CallForDrawWithDelay(2.0f));      
     }
 
-    private IEnumerator CallForDrawWithDelay()
+    #endregion
+
+    #region Private methods
+
+    private IEnumerator CallForDrawWithDelay(float delay)
     {
-        textMesh.text = hand.GetHandRank().ToString();
+        DisplayTexts(hand.GetHandRank().ToString());
         managerState = ManagerState.CantDraw;
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(delay);
 
         callCounter++;
 
         if (callCounter >= 2)
         {
-            StartCoroutine(CallDrawCards());
+            StartCoroutine(CallDrawCardsWithDelay(timeWaitToDraw));
         }
     }
 
-    public void ResetStates()
+
+    IEnumerator CallDrawCardsWithDelay(float delay)
+    {
+        DisplayTexts("DEALING!!!!");
+        DisplayCardsBeforePlay();
+
+        yield return new WaitForSeconds(delay);
+
+        callCounter = 0;
+        ResetStates();
+    }
+
+    private void ResetStates()
     {
         InitializeCards();
         DisplayCardsForPlay();
         callCounter++;
         managerState = ManagerState.CanDraw;
-        textMesh.text = "DRAW";
-    }
-
-    private void Start()
-    {
-        InitializeCards();
-        StartCoroutine(CallDrawCards());
-    }
-
-    IEnumerator CallDrawCards()
-    {
-        textMesh.text = "DEALING!";
-        DisplayCardsBeforePlay();
-
-        yield return new WaitForSeconds(timeWaitToDraw);
-
-        callCounter = 0;
-        ResetStates();
+        DisplayTexts("HOLD CARDS");
     }
 
     private void InitializeCards()
@@ -82,11 +91,7 @@ public class GameManager : MonoBehaviour, IGameManager
 
         deck.Interactor.RandomizeData();
 
-        hand.ClaimForCards((count) =>
-        {
-            CollectCardsToHand(count, deck);
-
-        }, indexHandler.Count());
+        hand.ClaimForCards((count) => { CollectCardsToHand(count, deck);  }, indexHandler.Count());
     }
 
     private void CollectCardsToHand(int count, Deck deck)
@@ -144,4 +149,11 @@ public class GameManager : MonoBehaviour, IGameManager
             slots[i].GetComponent<SpriteRenderer>().sprite = slots[i].defaultBackSprite;
         }             
     }
+
+    private void DisplayTexts(string text)
+    {
+        textMesh.text = text;
+    }
+
+    #endregion
 }

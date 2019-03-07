@@ -17,8 +17,6 @@ public class ButtonView : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Pressed1");
-
         ButtonPresenter.Pressed(() => {
             if(ButtonPresenter.GameManager.managerState == ManagerState.CanDraw)
             {
